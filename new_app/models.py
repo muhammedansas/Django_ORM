@@ -9,16 +9,14 @@ class Student(models.Model):
 
     def __str__(self):
         return self.name
-
-
+    
 class Book(models.Model):
     name = models.CharField(max_length=100)
     price = models.IntegerField()
 
 class Store(models.Model):
     name = models.CharField(max_length=100)
-    books = models.ManyToManyField(Book)
-
+    books = models.ManyToManyField(Book,related_name='aa')
 
 class Department(models.Model):
     name = models.CharField(max_length=100)
@@ -26,11 +24,10 @@ class Department(models.Model):
     def __str__(self):
         return self.name
 
-
 class Employees(models.Model):
     name = models.CharField(max_length=100)
     age = models.IntegerField()
     department = models.ForeignKey(Department,on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name      
+        return self.name
