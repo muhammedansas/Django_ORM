@@ -20,8 +20,6 @@ class Store(models.Model):
     books = models.ManyToManyField(Book)
 
 
-
-
 class Department(models.Model):
     name = models.CharField(max_length=100)
 
