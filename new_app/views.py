@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from . models import Student,Book,Store,Department,Employees
-from django.db.models import Q,Sum,F
+from django.db.models import Q,F,Sum,Avg,Min,Max,Count
 from django.db.models.functions import Length
 
 
@@ -10,12 +10,12 @@ from django.db.models.functions import Length
 
 # this makes inner join for that and reduce the queries
 # //////////////////////////////////////
-def home(request): 
-    new = Employees.objects.all().select_related('department')                
-    for i in new:
-        print(i.name,i.department.name)                                       # printing foreign key model name
+# def home(request): 
+#     new = Employees.objects.all().select_related('department')                
+#     for i in new:
+#         print(i.name,i.department.name)                                       # printing foreign key model name
     
-    return None
+#     return None
 
 
 
@@ -40,7 +40,7 @@ def home(request):
 # /////////////////////////////////////
 
 # bulk update using for loop:
-
+# ////////////////////////////////////////////////////////
 
 # updates = [
 #     {'id': 1, 'price': 19.99},
@@ -57,10 +57,35 @@ def home(request):
 #     book.save()
 
 
+# using bulk_update word :
+# //////////////////////////////////////////////////
+
+# Model.objects.bulk_update(objs, fields, batch_size=None)
+
+# from yourapp.models import Product
+
+# # List of products to update
+# products_to_update = [
+#     Product(id=1, price=200.00, stock=10),
+#     Product(id=2, price=150.00, stock=20),
+#     Product(id=3, price=300.00, stock=15),
+# ]
+
+# # Fields to update
+# fields_to_update = ['price', 'stock']
+
+# # Perform the bulk update
+# Product.objects.bulk_update(products_to_update, fields_to_update)
+
+
+
+
+
 # Performance: Updating records one by one with save() can be slower, especially if you have a large number of records, due to the multiple database queries. Each save() call generates a separate SQL UPDATE query.
 
 
 # Transaction Management: If you're updating many records and want to ensure that either all updates succeed or none of them do, you should use Django’s transaction management to wrap the updates in a transaction.:
+# ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 # from django.db import transaction
 
@@ -86,7 +111,25 @@ def home(request):
 # Transaction Management: Use transaction.atomic() to ensure all updates are applied successfully or none are applied in case of an error.
 
 
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+# Aggregate and Annotate:
+# //////////////////////////////
+
+# Aggregate:
+    # The aggregate() method is used to compute values (like sum, average, count, etc.) over a queryset and return a dictionary with the computed values. It returns a single dictionary containing the computed values for the entire queryset.
+
+# eg:
+
+# def home(request): 
+#     new = Book.objects.aggregate(count = Count('price'),sum=Sum('price'))                    # when using count = Count('price') the query will be creating a AS in the query that means a temporary name in that count or somthing
+#     print(new)                                                
+    
+#     return None
+
+
+# Annotate:
+    # The annotate() method is used to calculate and add a new field to each object in the queryset. Unlike aggregate(), which returns a single summary value for the entire queryset, annotate() returns a queryset where each object has been annotated with the calculated value.
 
 
 
