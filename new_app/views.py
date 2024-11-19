@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,HttpResponse
 from . models import Student,Book,Store,Department,Employees
 from django.db.models import Q,F,Sum,Avg,Min,Max,Count
 from django.db.models.functions import Length
@@ -16,8 +16,6 @@ from django.db.models.functions import Length
 #         print(i.name,i.department.name)                                       # printing foreign key model name
     
 #     return None
-
-
 
 # ///////////////////////////////////////////////////////
 
@@ -121,15 +119,21 @@ from django.db.models.functions import Length
 
 # eg:
 
-# def home(request): 
-#     new = Book.objects.aggregate(count = Count('price'),sum=Sum('price'))                    # when using count = Count('price') the query will be creating a AS in the query that means a temporary name in that count or somthing
-#     print(new)                                                
+def home(request): 
+    new = Book.objects.aggregate(count = Count('price'),sum=Sum('price'))                    # when using count = Count('price') the query will be creating a AS in the query that means a temporary name in that count or somthing
+    print(new)                                                
     
-#     return None
+    return HttpResponse("hello")
 
 
-# Annotate:
+# Annotate: 
     # The annotate() method is used to calculate and add a new field to each object in the queryset. Unlike aggregate(), which returns a single summary value for the entire queryset, annotate() returns a queryset where each object has been annotated with the calculated value.
+    # When you use annotate() in Django ORM, it temporarily creates a new field (or "column") in the queryset results, but it does not create a new column in the actual database table.
+
+# eg :
 
 
+# /////////////////////////////////////////////////////////////////////////////////
 
+# F object :-
+    # In Django's Object-Relational Mapping (ORM), the F object is a powerful tool that allows you to perform database operations directly at the database level, without fetching data into Python memory.
